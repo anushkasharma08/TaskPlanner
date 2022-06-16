@@ -1,0 +1,186 @@
+<div *ngIf="loggedin">
+  
+<div *ngIf="!enabledEmployee && !enabledTask && !enabledAsign"  style="width: 80%; margin-left:200px">
+  
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <p>Add Project</p>
+    <div class="form-outline  form-group">
+      <label class="form-label">Project Name</label>
+  
+      <input
+        type="name"
+        id="project_name"
+        formControlName="project_name"
+        class="form-control"
+        placeholder="project name"
+      />
+      <br />
+      <span
+        *ngIf="
+          !form.get('project_name').valid &&
+          form.get('project_name').touched
+        "
+        class="help-block"
+        >Please enter a valid project name!</span
+      >
+    </div>
+    <div class="form-outline  form-group">
+      <label class="form-label">Description</label>
+  
+      <input
+        type="string"
+        id="description"
+        formControlName="description"
+        class="form-control"
+        placeholder="description"
+      />
+      <br />
+      <span
+        *ngIf="
+          !form.get('description').valid &&
+          form.get('description').touched
+        "
+        class="help-block"
+        >Please enter a description=""</span
+      >
+    </div>
+  
+  
+  
+    <div class="text-center pt-1 mb-5 pb-1">
+      <button
+        class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
+        [disabled]="!form.valid"
+        type="Submit"
+      >
+        Add
+      </button>
+    </div>
+  </form>
+  
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Project</th>
+        <th scope="col">Description</th>
+      </tr>
+    </thead>
+    <tbody >
+      <tr *ngFor="let i of projects">
+        <th scope="row">{{i.project_id}}</th>
+        <td>{{i.project_name}}</td>
+        <td>{{i.description}}</td>
+        <button class="btn btn-danger" (click)="getProjectEmployee(i)">Asign task</button>
+        <button class="btn btn-primary" (click)="getEmployee(i)">Asign employee</button>
+      </tr>
+      
+    </tbody>  </table>
+
+
+  </div>
+  <div *ngIf="enabledEmployee" style="width: 80%; margin-left:200px">
+  
+<table class="table table-striped">
+<thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Name</th>
+    <th scope="col">Email</th>
+    <th scope="col">Phone</th>
+  </tr>
+</thead>
+<tbody >
+  <tr *ngFor="let i of employees">
+    <th scope="row">{{i.employee_id}}</th>
+    <td>{{i.name}}</td>
+    <td>{{i.email}}</td>
+    <td>{{i.phone}}</td>
+    <button class="btn btn-outline-primary" (click)="asignEmployee(i)">Asign</button>
+  </tr>
+</tbody>  </table>
+<button class="btn btn-outline-danger" (click)="enabledEmployee=!enabledEmployee">Back</button>
+  </div>
+
+  <div *ngIf="enabledTask" style="width: 80%; margin-left:200px">
+  
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+        </tr>
+      </thead>
+      <tbody >
+        <tr *ngFor="let i of projectEmployee">
+          <th scope="row">{{i.employee_id}}</th>
+          <td>{{i.employee.name}}</td>
+          <button class="btn btn-outline-primary" (click)="asignTask(i)">Asign</button>
+        </tr>
+      </tbody>  </table>
+      <button class="btn btn-outline-danger" (click)="enabledTask=!enabledTask">Back</button>
+        </div>
+
+    <div *ngIf="enabledAsign">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <p>Asign Task</p>
+        <div class="form-outline  form-group">
+          <label class="form-label">Title</label>
+      
+          <input
+            type="name"
+            id="project_name"
+            formControlName="project_name"
+            class="form-control"
+            placeholder="Title"
+          />
+          <br />
+          <span
+            *ngIf="
+              !form.get('project_name').valid &&
+              form.get('project_name').touched
+            "
+            class="help-block"
+            >Please enter a valid Title</span
+          >
+        </div>
+        <div class="form-outline  form-group">
+          <label class="form-label">Description</label>
+      
+          <input
+            type="string"
+            id="description"
+            formControlName="description"
+            class="form-control"
+            placeholder="description"
+          />
+          <br />
+          <span
+            *ngIf="
+              !form.get('description').valid &&
+              form.get('description').touched
+            "
+            class="help-block"
+            >Please enter a description!</span
+          >
+        </div>
+      
+      
+      
+        <div class="text-center pt-1 mb-5 pb-1">
+          <button
+            class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
+            [disabled]="!form.valid"
+            (click)="asign()"
+          >
+            Asign Task
+          </button>
+        </div>
+      </form>
+    </div>
+
+    
+</div>
+<div *ngIf="!loggedin">
+  <h2>Please Login First</h2>
+</div>
